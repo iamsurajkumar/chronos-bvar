@@ -18,6 +18,71 @@ Comparing **Amazon's Chronos-2** (a pretrained time-series foundation model) aga
 - **Source:** Giannone et al. replication dataset
 - **Variables:** 7 US macro indicators (Real GDP, Prices, Consumption, Investment, Hours, Compensation, Fed Funds)
 - **Frequency:** Quarterly
+- **Sample:** 200 observations (1974-2023)
+
+## Results
+
+### 8-Quarter Holdout Evaluation
+
+Both models trained on 192 observations, evaluated on final 8 quarters.
+
+#### Overall Performance
+
+| Metric | Chronos-2 | BVAR | Winner |
+|--------|-----------|------|--------|
+| **Average RMSE** | 2.36 | 2.42 | Chronos (+2.5%) |
+| **Average MAE** | 2.02 | 2.12 | Chronos (+4.7%) |
+
+#### Performance by Variable
+
+| Variable | Chronos RMSE | BVAR RMSE | Winner | Notes |
+|----------|--------------|-----------|--------|-------|
+| RGDP | 2.64 | 1.63 | **BVAR** | BVAR 38% better |
+| PGDP (Prices) | 1.37 | 0.55 | **BVAR** | BVAR 60% better |
+| Consumption | 1.45 | 1.42 | **BVAR** | Nearly tied |
+| **Investment** | 5.84 | 9.46 | **Chronos** | Chronos 38% better |
+| Employment Hours | 2.50 | 1.70 | **BVAR** | BVAR 32% better |
+| Real Compensation | 2.37 | 1.82 | **BVAR** | BVAR 23% better |
+| **Fed Funds** | 0.35 | 0.37 | **Chronos** | Chronos 6% better |
+
+**Score: BVAR 5/7 variables, Chronos 2/7 variables**
+
+#### Performance by Horizon
+
+| Horizon | Chronos RMSE | BVAR RMSE | Winner |
+|---------|--------------|-----------|--------|
+| 1Q | 4.02 | 7.25 | **Chronos** (+45%) |
+| 2Q | 1.84 | 2.85 | **Chronos** (+35%) |
+| 3Q | 1.23 | 1.48 | **Chronos** (+17%) |
+| 4Q | 1.86 | 2.51 | **Chronos** (+26%) |
+| 5Q | 2.38 | 2.72 | **Chronos** (+13%) |
+| 6Q | 2.96 | 3.27 | **Chronos** (+9%) |
+| 7Q | 3.00 | 3.14 | **Chronos** (+4%) |
+| 8Q | 4.16 | 4.24 | **Chronos** (+2%) |
+
+**Score: Chronos wins ALL 8 horizons**
+
+### Key Insights
+
+1. **Variable-Level Analysis:**
+   - BVAR excels at forecasting "smooth" macro aggregates (GDP, prices, employment)
+   - Chronos excels at volatile series (Investment) and interest rates
+   - Chronos's large advantage on Investment (38% better) drives its overall win
+
+2. **Horizon Analysis:**
+   - Chronos dominates at short horizons (1-4Q), with advantage shrinking at longer horizons
+   - BVAR's econometric structure provides more stable long-run forecasts
+
+3. **Interpretation:**
+   - The zero-shot foundation model is competitive with domain-specific econometric models
+   - BVAR's Minnesota prior is well-suited for stable macro relationships
+   - Chronos may capture non-linear patterns BVAR misses (e.g., Investment volatility)
+
+### Limitations
+
+- **8-Quarter Horizon Only:** BVAR forecasts were pre-computed in MATLAB for 8 horizons. Extending to 20+ quarters requires re-running the BVAR estimation.
+- **Single Evaluation Window:** Results are from one pseudo out-of-sample exercise. Rolling origin evaluation would provide more robust estimates.
+- **Zero-Shot Only:** Chronos was not fine-tuned on macro data; fine-tuning may improve performance.
 
 ## Installation
 
@@ -69,14 +134,7 @@ uv run jupyter notebook
 ### Evaluation
 - **Metrics:** RMSE, MAE
 - **Design:** Pseudo out-of-sample (holdout last 8 quarters)
-- **Comparison:** Both models trained on identical data
-
-## Results
-
-See `model_comparison.ipynb` for detailed results including:
-- Variable-by-variable RMSE comparison
-- Horizon-by-horizon error analysis
-- Visualization of forecasts with confidence intervals
+- **Comparison:** Both models trained on identical data (first 192 observations)
 
 ## Requirements
 
