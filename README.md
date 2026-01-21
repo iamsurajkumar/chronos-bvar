@@ -25,7 +25,7 @@ This project uses [uv](https://github.com/astral-sh/uv) for dependency managemen
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/chronos-bvar.git
+git clone https://github.com/iamsurajkumar/chronos-bvar.git
 cd chronos-bvar
 
 # Install dependencies (requires uv)
