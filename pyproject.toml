@@ -1,0 +1,19 @@
+[project]
+name = "chronos-bvar"
+version = "0.1.0"
+description = "Chronos 2 vs Bayesian VAR comparison"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"  # AutoGluon works best with 3.11-3.12
+dependencies = [
+    "autogluon.timeseries>=1.5.0",
+    "pandas>=2.0.0",
+    "numpy>=1.25.0,<2.2",
+    "matplotlib>=3.7.0",
+    "ipykernel>=6.0.0",
+    "jupyter>=1.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipywidgets>=8.0.0",
+]

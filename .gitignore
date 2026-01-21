@@ -1,0 +1,32 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+chronos-env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# AutoGluon models (large, generated)
+AutogluonModels/
+
+# Fine-tuned models (large)
+chronos-2-finetuned/
+
+# HuggingFace cache
+.cache/
